@@ -1,0 +1,239 @@
+<div class="max-w-2xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+    <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+        <div class="px-4 py-5 sm:px-6 bg-indigo-700">
+            <h1 class="text-2xl font-bold text-white">Webinar Enrollment</h1>
+            <p class="mt-1 max-w-2xl text-sm text-indigo-100">Fill in your details to secure your spot</p>
+        </div>
+
+        <form id="enrollment-form" class="p-6 space-y-6">
+            <div class="space-y-2">
+                <label for="name" class="block text-sm font-medium text-gray-700">Full Name</label>
+                <input type="text" id="name" name="name" required
+                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2 border"
+                    placeholder="Enter your full name">
+            </div>
+
+            <div class="space-y-2">
+                <label for="email" class="block text-sm font-medium text-gray-700">Email Address</label>
+                <input type="email" id="email" name="email" required
+                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2 border"
+                    placeholder="your@email.com">
+            </div>
+
+            <div class="space-y-2">
+                <label for="phone" class="block text-sm font-medium text-gray-700">Phone Number</label>
+                <input type="tel" id="phone" name="phone" required
+                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2 border"
+                    placeholder="+91 98765 43210">
+            </div>
+
+            <div class="space-y-2">
+                <label for="webinar" class="block text-sm font-medium text-gray-700">Select Webinar</label>
+                <select id="webinar" name="webinar" required
+                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2 border">
+                    <option value="">Choose a webinar...</option>
+                    <option value="webinar1">Introduction to Web Development - ₹4,999</option>
+                    <option value="webinar2">Advanced JavaScript Patterns - ₹7,999</option>
+                    <option value="webinar3">Full Stack Development - ₹9,999</option>
+                </select>
+            </div>
+
+            <div id="payment-errors" class="hidden p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg" role="alert">
+            </div>
+
+            <div class="pt-4">
+                <button type="button" id="rzp-button"
+                    class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors">
+                    <span id="button-text">Proceed to Payment</span>
+                    <span id="spinner" class="hidden ml-2">
+                        <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
+                            viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
+                            </circle>
+                            <path class="opacity-75" fill="currentColor"
+                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                            </path>
+                        </svg>
+                    </span>
+                </button>
+                <button type="submit" id="submit-button" class="hidden">Submit</button>
+            </div>
+        </form>
+
+        <div class="px-6 py-4 bg-gray-50 border-t border-gray-200">
+            <div class="flex items-center justify-center space-x-2 text-sm text-gray-500">
+                <svg class="h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd"
+                        d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                        clip-rule="evenodd" />
+                </svg>
+                <span>Secure payment powered by Razorpay</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // DOM Elements
+    const form = document.getElementById('enrollment-form');
+    const submitButton = document.getElementById('submit-button');
+    const paymentErrors = document.getElementById('payment-errors');
+    const rzpButton = document.getElementById('rzp-button');
+    const buttonText = document.getElementById('button-text');
+    const spinner = document.getElementById('spinner');
+
+    // Utility functions
+    function showError(message) {
+        paymentErrors.textContent = message;
+        paymentErrors.classList.remove('hidden');
+        paymentErrors.classList.add('bg-red-100', 'text-red-700');
+        rzpButton.disabled = false;
+        buttonText.classList.remove('hidden');
+        spinner.classList.add('hidden');
+    }
+
+    function showLoading() {
+        paymentErrors.classList.add('hidden');
+        rzpButton.disabled = true;
+        buttonText.classList.add('hidden');
+        spinner.classList.remove('hidden');
+    }
+
+    function resetButton() {
+        rzpButton.disabled = false;
+        buttonText.classList.remove('hidden');
+        spinner.classList.add('hidden');
+    }
+
+    // Handle form submission for Razorpay
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        // This will be triggered after successful payment
+        form.submit();
+    });
+
+    // Handle Razorpay payment
+    rzpButton.addEventListener('click', async function (e) {
+        e.preventDefault();
+
+        // Reset error messages
+        paymentErrors.classList.add('hidden');
+
+        // Get form data
+        const formData = {
+            name: document.getElementById('name').value.trim(),
+            email: document.getElementById('email').value.trim(),
+            phone: document.getElementById('phone').value.trim(),
+            webinar: document.getElementById('webinar').value
+        };
+
+        // Validate form
+        if (!formData.name) {
+            showError('Please enter your full name');
+            document.getElementById('name').focus();
+            return;
+        }
+
+        if (!formData.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+            showError('Please enter a valid email address');
+            document.getElementById('email').focus();
+            return;
+        }
+
+        if (!formData.phone || !/^[0-9\-\+\(\)\s]{10,15}$/.test(formData.phone)) {
+            showError('Please enter a valid phone number');
+            document.getElementById('phone').focus();
+            return;
+        }
+
+        if (!formData.webinar) {
+            showError('Please select a webinar');
+            document.getElementById('webinar').focus();
+            return;
+        }
+
+        try {
+            showLoading();
+
+            // Create order on the server
+            const response = await fetch('/enroll/create-order', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData)
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.error || 'Failed to create order');
+            }
+
+            // Configure Razorpay options
+            const options = {
+                key: '{{razorpayKey}}',
+                amount: data.amount,
+                currency: data.currency || 'INR',
+                name: 'WebinarPro',
+                description: 'Webinar Enrollment: ' + document.querySelector(`#webinar option[value="${formData.webinar}"]`).text.split(' - ')[0],
+                order_id: data.id,
+                handler: async function (response) {
+                    try {
+                        showLoading();
+                        paymentErrors.textContent = 'Verifying your payment...';
+                        paymentErrors.classList.remove('hidden', 'alert-error');
+                        paymentErrors.classList.add('alert-success');
+
+                        const verificationResponse = await fetch('/enroll/verify-payment', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                razorpay_payment_id: response.razorpay_payment_id,
+                                razorpay_order_id: response.razorpay_order_id,
+                                razorpay_signature: response.razorpay_signature,
+                                formData: formData
+                            })
+                        });
+
+                        const result = await verificationResponse.json();
+
+                        if (result.success) {
+                            // Redirect to success page
+                            window.location.href = result.redirect || '/enroll/success';
+                        } else {
+                            throw new Error(result.error || 'Payment verification failed');
+                        }
+                    } catch (error) {
+                        console.error('Verification Error:', error);
+                        showError(error.message || 'An error occurred during payment verification');
+                    }
+                },
+                prefill: {
+                    name: formData.name,
+                    email: formData.email,
+                    contact: formData.phone
+                },
+                theme: {
+                    color: '#4F46E5'
+                },
+                modal: {
+                    ondismiss: function () {
+                        resetButton();
+                    }
+                }
+            };
+
+            const rzp = new Razorpay(options);
+            rzp.open();
+
+        } catch (error) {
+            console.error('Payment Error:', error);
+            showError(error.message || 'An error occurred. Please try again.');
+        } finally {
+            resetButton();
+        }
+    });
+</script>

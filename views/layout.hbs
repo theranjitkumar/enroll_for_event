@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{title}} - WebinarPro</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          backgroundImage: {
+            'hero-gradient': 'linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%)',
+          },
+          boxShadow: {
+            'feature': '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+          },
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body class="min-h-screen flex flex-col bg-gray-50 font-sans">
+  <!-- Navigation -->
+  <nav class="bg-white shadow-sm sticky top-0 z-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between h-16">
+        <div class="flex items-center">
+          <a href="/" class="text-xl font-bold text-indigo-600 hover:text-indigo-800 transition-colors">WebinarPro</a>
+        </div>
+        <div class="hidden md:flex items-center space-x-8">
+          <a href="/" class="text-gray-700 hover:text-indigo-600 px-3 py-2 font-medium transition-colors">Home</a>
+          <a href="/enroll"
+            class="bg-indigo-600 text-white px-4 py-2 rounded-md font-medium hover:bg-indigo-700 transition-colors">
+            Enroll Now
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="flex-grow">
+    {{{body}}}
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 mt-auto">
+    <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div class="md:col-span-2">
+          <h3 class="text-lg font-semibold text-white">WebinarPro</h3>
+          <p class="mt-4 text-gray-300">Empowering professionals through expert-led online education and training.</p>
+        </div>
+        <div>
+          <h3 class="text-sm font-semibold tracking-wider text-white uppercase">Quick Links</h3>
+          <ul class="mt-4 space-y-2">
+            <li><a href="/" class="text-gray-300 hover:text-white transition-colors">Home</a></li>
+            <li><a href="/enroll" class="text-gray-300 hover:text-white transition-colors">Enroll</a></li>
+            <li><a href="#" class="text-gray-300 hover:text-white transition-colors">About Us</a></li>
+            <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-sm font-semibold tracking-wider text-white uppercase">Contact</h3>
+          <ul class="mt-4 space-y-2">
+            <li class="text-gray-300">Email: info@webinarpro.com</li>
+            <li class="text-gray-300">Phone: +91 12345 67890</li>
+          </ul>
+        </div>
+      </div>
+      <div class="mt-8 pt-8 border-t border-gray-700">
+        <p class="text-sm text-center text-gray-400">&copy; 2023 WebinarPro. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+</body>
+
+</html>
