@@ -1,6 +1,6 @@
-# Event Enrollment with Stripe Payment
+# Event Enrollment WebApp
 
-A web application for event enrollment with Stripe payment integration.
+A web application for event enrollment with Razorpay payment integration.
 
 ## Features
 
