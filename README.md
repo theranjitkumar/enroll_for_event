@@ -5,7 +5,7 @@ A web application for event enrollment with Razorpay payment integration.
 ## Features
 
 - User-friendly enrollment form
-- Secure payment processing with Stripe
+- Secure payment processing with Razorpay 
 - Responsive design for all devices
 - Success and cancel pages for payment flow
 - Form validation and error handling
@@ -14,7 +14,7 @@ A web application for event enrollment with Razorpay payment integration.
 
 - Node.js (v14 or higher)
 - npm (comes with Node.js)
-- Stripe account (for API keys)
+- Razorpay account (for API keys)
 
 ## Setup Instructions
 
@@ -31,10 +31,10 @@ A web application for event enrollment with Razorpay payment integration.
 
 3. **Set up environment variables**
    - Create a `.env` file in the root directory
-   - Add your Stripe API keys:
+   - Add your Razorpay API keys:
      ```
-     STRIPE_SECRET_KEY=your_stripe_secret_key
-     STRIPE_PUBLISHABLE_KEY=your_stripe_publishable_key
+     OZORPAY_SECRET_KEY=your_rOZORPAY_secret_key
+     ROZORPAY_PUBLISHABLE_KEY=your_Razorpay_publishable_key
      PORT=3000
      ```
 
